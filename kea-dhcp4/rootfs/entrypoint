@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -e
+CONF=/etc/kea/kea-dhcp4.conf
+BIN=/usr/local/sbin/kea-dhcp4
+
+check_config () {
+    if [ -f $CONF ]; then
+        $BIN -t $CONF
+        if [ $? -eq 0 ]; then
+            echo "Check file $CONF [OK]"
+        else
+            echo "Error in kea test configuration file $CONF"
+            exit 1
+        fi
+    fi
+}
+
+check_config
+
+exec "$@"
